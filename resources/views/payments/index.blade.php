@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>عرض المدفوعات</title>
+    <title> Payments</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body class="container py-5">
-    <h2>قائمة المدفوعات</h2>
+    <h2> Payment List</h2>
 
-    <a href="{{ route('payments.create') }}" class="btn btn-success mb-3">إضافة مدفوع جديد</a>
+    <a href="{{ route('payments.create') }}" class="btn btn-success mb-3">  Add New Payments</a>
 
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>المعرف</th>
-                <th>المستخدم</th>
-                <th>المبلغ</th>
-                <th>الوصف</th>
-                <th>تاريخ الإنشاء</th>
+                <th>IP</th>
+                <th>USER</th>
+                <th>AMOUNT</th>
+                <th>Description</th>
+                <th> Date Of Establishment</th>
             </tr>
         </thead>
         <tbody>

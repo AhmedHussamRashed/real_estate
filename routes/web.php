@@ -3,19 +3,10 @@
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is حيث يمكنك تسجيل المسارات (routes) لتطبيقك. يتم تحميل هذه
-| المسارات من خلال RouteServiceProvider وستكون جميعها ضمن
-| مجموعة web middleware.
-|
-*/
+
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('payments.index');
 });
 
 // ----------------------------
