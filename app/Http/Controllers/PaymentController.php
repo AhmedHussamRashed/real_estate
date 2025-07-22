@@ -29,6 +29,7 @@ class PaymentController extends Controller
             'user_id' => 'required|integer|exists:users,id',
             'amount' => 'required|numeric|min:0.01',
             'description' => 'nullable|string|max:255',
+            'type' => 'nullable|string|max:255',
         ]);
 
         Payment::create($validated);

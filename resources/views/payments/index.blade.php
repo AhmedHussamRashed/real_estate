@@ -1,35 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title> Payments</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Payments List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .table thead th {
+            background-color: #343a40;
+            color: white;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+    </style>
 </head>
-<body class="container py-5">
-    <h2> Payment List</h2>
+<body>
+    <div class="container py-5">
+        <div class="header">
+            <h2><i class="bi bi-cash-stack"></i> Payments</h2>
+            <a href="{{ route('payments.create') }}" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Add New Payment
+            </a>
+        </div>
 
-    <a href="{{ route('payments.create') }}" class="btn btn-success mb-3">  Add New Payments</a>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover shadow-sm">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Amount</th>
+                        <th>Currency</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($payments as $payment)
+                        <tr>
+                            <td>{{ $payment->id }}</td>
+                            <td>{{ $payment->user?->name ?? 'N/A' }}</td>
+                            <td>${{ number_format($payment->amount, 2) }}</td>
+                            <td>{{ $payment->type }}</td>
+                            <td>{{ $payment->description }}</td>
+                            <td>{{ $payment->created_at ? $payment->created_at->format('Y-m-d') : 'N/A' }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">No payments found.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>IP</th>
-                <th>USER</th>
-                <th>AMOUNT</th>
-                <th>Description</th>
-                <th> Date Of Establishment</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($payments as $payment)
-                <tr>
-                    <td>{{ $payment->id }}</td>
-                    <td>{{ $payment->user_id }}</td>
-                    <td>{{ $payment->amount }}</td>
-                    <td>{{ $payment->description }}</td>
-                    <td>{{ $payment->created_at }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.js"></script>
 </body>
 </html>
