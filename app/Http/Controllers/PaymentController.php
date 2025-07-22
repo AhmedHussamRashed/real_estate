@@ -15,14 +15,14 @@ class PaymentController extends Controller
         return view('payments.index', compact('payments'));
     }
 
-    // عرض نموذج إضافة مدفوعات جديدة
+    // عرض نموذج إضافة مدفوعات جديدة (لواجهة الويب)
     public function create()
     {
         $users = User::all(); // جلب جميع المستخدمين
-        return view('payments.create', compact('users')); // إرسالهم إلى الواجهة
+        return view('payments.create', compact('users'));
     }
 
-    // حفظ المدفوعات الجديدة
+    // حفظ المدفوعات من واجهة الويب
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -44,5 +44,24 @@ class PaymentController extends Controller
         $payment->delete();
 
         return redirect()->route('payments.index')->with('success', 'تم حذف المدفوع بنجاح.');
+    }
+
+    // إضافة جديدة عبر API
+    public function storeFromApi(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|integer|exists:users,id',
+            'amount' => 'required|numeric|min:0.01',
+            'description' => 'nullable|string|max:255',
+            'type' => 'required|string|max:50',
+        ]);
+
+        $payment = Payment::create($validated);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'تمت إضافة المعاملة بنجاح.',
+            'payment' => $payment,
+        ], 201);
     }
 }

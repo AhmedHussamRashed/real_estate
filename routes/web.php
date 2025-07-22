@@ -25,4 +25,6 @@ Route::post('/payments', [PaymentController::class, 'store'])->name('payments.st
 // حذف مدفوع
 Route::delete('/payments/{id}', [PaymentController::class, 'destroy'])->name('payments.destroy');
 
+// من التطبق الخاص بي 
+Route::post('/payments', [PaymentController::class, 'store']);
 
