@@ -3,14 +3,12 @@
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
-
-
 Route::get('/', function () {
-    return redirect()->route('payments.index');
+    return redirect()->route('payments.create');
 });
 
 // ----------------------------
-// Payments Routes
+// Payments Routes (Web)
 // ----------------------------
 
 // عرض كل المدفوعات
@@ -24,7 +22,3 @@ Route::post('/payments', [PaymentController::class, 'store'])->name('payments.st
 
 // حذف مدفوع
 Route::delete('/payments/{id}', [PaymentController::class, 'destroy'])->name('payments.destroy');
-
-// من التطبق الخاص بي 
-Route::post('/payments', [PaymentController::class, 'store']);
-
