@@ -9,6 +9,7 @@ use Illuminate\Validation\ValidationException;
 
 class PaymentApiController extends Controller
 {
+    //  جلب جميع العمليات
     public function index()
     {
         return response()->json([
@@ -18,6 +19,7 @@ class PaymentApiController extends Controller
         ], 200);
     }
 
+    //  جلب تفاصيل عملية معينة
     public function show($id)
     {
         try {
@@ -28,22 +30,23 @@ class PaymentApiController extends Controller
         }
     }
 
+    //  حفظ عملية جديدة
     public function store(Request $request)
     {
         try {
             $validated = $request->validate([
+                'type' => 'required|in:income,expense',
                 'amount' => 'required|numeric',
-                'description' => 'required|string',
-                'currency' => 'nullable|string'
+                'description' => 'required|string'
             ]);
 
             $userId = $request->user_id ?? 1;
 
             $payment = Payment::create([
                 'user_id' => $userId,
+                'type' => $validated['type'],
                 'amount' => $validated['amount'],
-                'description' => $validated['description'],
-                'type' => $validated['currency'] ?? 'USD'
+                'description' => $validated['description']
             ]);
 
             return response()->json([
@@ -63,21 +66,22 @@ class PaymentApiController extends Controller
         }
     }
 
+    //  تحديث عملية
     public function update(Request $request, $id)
     {
         try {
             $payment = Payment::findOrFail($id);
 
             $validated = $request->validate([
-                'amount' => 'sometimes|numeric',
-                'description' => 'nullable|string',
-                'currency' => 'nullable|string'
+                'type' => 'nullable|in:income,expense',
+                'amount' => 'nullable|numeric',
+                'description' => 'nullable|string'
             ]);
 
             $payment->update([
+                'type' => $validated['type'] ?? $payment->type,
                 'amount' => $validated['amount'] ?? $payment->amount,
-                'description' => $validated['description'] ?? $payment->description,
-                'type' => $validated['currency'] ?? $payment->type
+                'description' => $validated['description'] ?? $payment->description
             ]);
 
             return response()->json(['status' => true, 'message' => 'تم التحديث بنجاح', 'data' => $payment], 200);
@@ -87,6 +91,7 @@ class PaymentApiController extends Controller
         }
     }
 
+    //  حذف عملية
     public function destroy($id)
     {
         try {
